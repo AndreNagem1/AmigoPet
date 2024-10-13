@@ -41,12 +41,12 @@ class PetInfoContainer extends StatelessWidget {
                     child: Column(
                       children: [
                         PetInfoHeader(
-                          label: 'Peso',
-                          labelColor: AppColors.pastelOrange,
+                          label: 'Idade',
+                          labelColor: AppColors.yellow,
                         ),
                         SizedBox(height: 5),
                         PetInfoData(
-                          data: '24.5 kg',
+                          data: '6 anos e 7 meses',
                         ),
                       ],
                     ),
@@ -56,12 +56,12 @@ class PetInfoContainer extends StatelessWidget {
                     child: Column(
                       children: [
                         PetInfoHeader(
-                          label: 'Distância',
-                          labelColor: AppColors.cyan,
+                          label: 'Peso',
+                          labelColor: AppColors.pastelOrange,
                         ),
                         SizedBox(height: 5),
                         PetInfoData(
-                          data: '30 km/mes',
+                          data: '24.5 kg',
                         ),
                       ],
                     ),

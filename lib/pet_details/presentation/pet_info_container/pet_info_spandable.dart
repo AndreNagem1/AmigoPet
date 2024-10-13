@@ -56,13 +56,13 @@ class _ExpandableWidgetState extends State<PetInfoExpandable> {
                           bottomLeft: Radius.circular(100),
                           bottomRight: Radius.circular(100),
                         ),
-                        color: AppColors.pastelOrange.withOpacity(0.3),
+                        color: AppColors.warmGreen.withOpacity(0.3),
                       ),
                       child: Icon(
                         _isExpanded
                             ? Icons.arrow_drop_up
                             : Icons.arrow_drop_down,
-                        color: AppColors.pastelOrange,
+                        color: AppColors.warmGreen,
                       ),
                     ),
                   ],

@@ -2,6 +2,8 @@ import 'package:amigo_pet/pet_details/presentation/pet_info_container/pet_info_c
 import 'package:amigo_pet/pet_details/presentation/pet_info_container/pet_info_spandable.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../chart_walgink_widget/chart_walking_widget.dart';
+
 class PetInfoContent extends StatelessWidget {
   const PetInfoContent({super.key});
 
@@ -15,6 +17,8 @@ class PetInfoContent extends StatelessWidget {
       child: Column(
         children: [
           PetInfoContainer(),
+          SizedBox(height: 20),
+          ChartWalkingWidget(),
           SizedBox(height: 20),
           PetInfoExpandable(label: 'Vacinas'),
           SizedBox(height: 20),
