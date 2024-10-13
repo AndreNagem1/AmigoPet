@@ -39,6 +39,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   flutter_modular: ^6.3.2
   google_fonts: ^4.0.4
+  fl_chart: ^0.69.0
 
 dev_dependencies:
   flutter_test:
