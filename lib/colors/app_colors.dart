@@ -10,4 +10,6 @@ class AppColors {
   static const Color yellow = Color(0xFFFFEB3B);
   static const Color cyan = Color(0xFF00BCD4);
   static const Color background = Color(0xFF212121);
+  static const Color surface = Color(0xFF1E1E1E);
+  static const Color letterColor = Color(0xFFD5D5D5);
 }

@@ -15,7 +15,7 @@ class StatusRow extends StatelessWidget {
     Color color = Colors.transparent;
 
     if (selected) {
-      color = AppColors.warmGreen;
+      color = AppColors.warmGreen.withOpacity(0.5);
     }
 
     return Row(
@@ -31,8 +31,8 @@ class StatusRow extends StatelessWidget {
               bottomRight: Radius.circular(30),
             ),
             border: Border.all(
-              color: AppColors.brown,
-              width: 1.5,
+              color: Colors.black26,
+              width: 1,
             ),
             color: color,
           ),
@@ -43,7 +43,7 @@ class StatusRow extends StatelessWidget {
           style: GoogleFonts.righteous(
             textStyle: TextStyle(
               fontSize: 12,
-              color: Colors.black87,
+              color: AppColors.letterColor,
             ),
           ),
         )

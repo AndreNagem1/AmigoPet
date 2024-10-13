@@ -11,7 +11,6 @@ class PetDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 270,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
@@ -19,11 +18,7 @@ class PetDialog extends StatelessWidget {
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
         ),
-        border: Border.all(
-          color: AppColors.brown,
-          width: 0.5,
-        ),
-        color: AppColors.pastelOrange,
+        color: AppColors.surface,
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -45,7 +40,7 @@ class PetDialog extends StatelessWidget {
                   style: GoogleFonts.righteous(
                     textStyle: const TextStyle(
                       fontSize: 20,
-                      color: AppColors.yellow,
+                      color: AppColors.letterColor,
                     ),
                   ),
                 ),
@@ -54,21 +49,28 @@ class PetDialog extends StatelessWidget {
             SizedBox(height: 20),
             PetDialogItem(
               icon: Icons.cake,
+              iconColor: AppColors.cyan,
               label: 'Aniversário',
             ),
+            SizedBox(height: 2),
             PetDialogItem(
               icon: Icons.pets_outlined,
+              iconColor: AppColors.orange,
               label: 'Comida',
             ),
+            SizedBox(height: 2),
             PetDialogItem(
               icon: Icons.vaccines,
+              iconColor: AppColors.yellow,
               label: 'Vacina',
             ),
+            SizedBox(height: 2),
             PetDialogItem(
               icon: Icons.bug_report_outlined,
+              iconColor: AppColors.brown,
               label: 'Pulga',
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 30),
             Row(
               children: [
                 StatusRow(
