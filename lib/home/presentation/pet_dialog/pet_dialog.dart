@@ -1,4 +1,5 @@
 import 'package:amigo_pet/colors/app_colors.dart';
+import 'package:amigo_pet/common_ui/divider.dart';
 import 'package:amigo_pet/home/presentation/pet_dialog/pet_dialog_item.dart';
 import 'package:amigo_pet/home/presentation/pet_dialog/status_row.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,28 +50,30 @@ class PetDialog extends StatelessWidget {
             SizedBox(height: 20),
             PetDialogItem(
               icon: Icons.cake,
-              iconColor: AppColors.cyan,
-              label: 'Aniversário',
+              iconColor: AppColors.lightTeal,
+              label: '20 de Fevereiro',
             ),
-            SizedBox(height: 2),
+            SizedBox(height: 4),
             PetDialogItem(
               icon: Icons.pets_outlined,
               iconColor: AppColors.orange,
-              label: 'Comida',
+              label: 'Comprar mais comida',
             ),
-            SizedBox(height: 2),
+            SizedBox(height: 4),
             PetDialogItem(
               icon: Icons.vaccines,
-              iconColor: AppColors.yellow,
-              label: 'Vacina',
+              iconColor: AppColors.warmGreen,
+              label: 'Vacinas - Em dia',
             ),
-            SizedBox(height: 2),
+            SizedBox(height: 4),
             PetDialogItem(
               icon: Icons.bug_report_outlined,
-              iconColor: AppColors.brown,
-              label: 'Pulga',
+              iconColor: AppColors.warmGreen,
+              label: 'Pulga - Em dia',
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 20),
+            AppDivider(),
+            SizedBox(height: 8),
             Row(
               children: [
                 StatusRow(

@@ -31,7 +31,7 @@ class StatusRow extends StatelessWidget {
               bottomRight: Radius.circular(30),
             ),
             border: Border.all(
-              color: Colors.black26,
+              color: Colors.white38,
               width: 1,
             ),
             color: color,
