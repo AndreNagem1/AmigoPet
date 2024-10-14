@@ -1,4 +1,4 @@
-import 'package:amigo_pet/home/presentation/home_screen.dart';
+import 'package:amigo_pet/home/presentation/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

@@ -1,13 +1,15 @@
 import 'package:amigo_pet/colors/app_colors.dart';
 import 'package:amigo_pet/common_ui/divider.dart';
+import 'package:amigo_pet/home/presentation/model/pet_dialog_info.dart';
 import 'package:amigo_pet/home/presentation/pet_dialog/pet_dialog_item.dart';
 import 'package:amigo_pet/home/presentation/pet_dialog/status_row.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PetDialog extends StatelessWidget {
-  const PetDialog({super.key});
+  final PetDialogInfo info;
+
+  const PetDialog({super.key, required this.info});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class PetDialog extends StatelessWidget {
               children: [
                 ClipOval(
                   child: Image.asset(
-                    'assets/images/diana.jpg',
+                    info.image,
                     height: 80,
                     width: 80,
                     fit: BoxFit.cover,
@@ -37,7 +39,7 @@ class PetDialog extends StatelessWidget {
                 ),
                 const SizedBox(width: 20),
                 Text(
-                  'Diana, 6 anos',
+                  info.name,
                   style: GoogleFonts.righteous(
                     textStyle: const TextStyle(
                       fontSize: 20,
@@ -51,25 +53,25 @@ class PetDialog extends StatelessWidget {
             PetDialogItem(
               icon: Icons.cake,
               iconColor: AppColors.lightTeal,
-              label: '20 de Fevereiro',
+              label: info.birthday,
             ),
             SizedBox(height: 4),
             PetDialogItem(
               icon: Icons.pets_outlined,
               iconColor: AppColors.orange,
-              label: 'Comprar mais comida',
+              label: info.foodSupply,
             ),
             SizedBox(height: 4),
             PetDialogItem(
               icon: Icons.vaccines,
               iconColor: AppColors.warmGreen,
-              label: 'Vacinas - Em dia',
+              label: info.vaccines,
             ),
             SizedBox(height: 4),
             PetDialogItem(
               icon: Icons.bug_report_outlined,
               iconColor: AppColors.warmGreen,
-              label: 'Pulga - Em dia',
+              label: info.remedies,
             ),
             SizedBox(height: 20),
             AppDivider(),
@@ -77,12 +79,12 @@ class PetDialog extends StatelessWidget {
             Row(
               children: [
                 StatusRow(
-                  selected: true,
+                  selected: info.onWalk ? false : true,
                   label: 'Em casa',
                 ),
                 SizedBox(width: 10),
                 StatusRow(
-                  selected: false,
+                  selected: info.onWalk ? true : false,
                   label: 'Passeando',
                 )
               ],
