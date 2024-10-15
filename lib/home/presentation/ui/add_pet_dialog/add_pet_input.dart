@@ -1,15 +1,17 @@
-
+import 'package:amigo_pet/common_ui/letter_decoration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AddPetInput extends StatelessWidget {
   final Color labelColor;
   final String label;
+  final TextInputType? inputType;
 
   const AddPetInput({
     super.key,
     required this.labelColor,
     required this.label,
+    this.inputType,
   });
 
   @override
@@ -31,9 +33,11 @@ class AddPetInput extends StatelessWidget {
               hintText: label,
               hintStyle: TextStyle(color: labelColor),
             ),
+            style: AppStyles.righteous14TextStyle,
+            keyboardType: inputType ?? TextInputType.text,
           ),
         ),
-        SizedBox(height: 4)
+        SizedBox(height: 6)
       ],
     );
   }

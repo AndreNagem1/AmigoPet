@@ -9,6 +9,12 @@ class AppStyles {
       color: AppColors.letterColor,
     ),
   );
+  static final TextStyle righteous14TextStyle = GoogleFonts.righteous(
+    textStyle: TextStyle(
+      fontSize: 14,
+      color: AppColors.letterColor,
+    ),
+  );
   static final TextStyle righteous12TextStyle = GoogleFonts.righteous(
     textStyle: TextStyle(
       fontSize: 12,
