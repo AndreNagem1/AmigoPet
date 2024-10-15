@@ -7,7 +7,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   void loadPetInfo() async {
     emit(Loading());
-    await Future.delayed(Duration(milliseconds: 3000));
+    await Future.delayed(Duration(milliseconds: 300));
     emit(ListPetInfo(listPetInfo));
   }
 }

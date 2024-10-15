@@ -1,24 +1,24 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../../colors/app_colors.dart';
 import '../../../common_ui/letter_decoration.dart';
 
-class Chart extends StatefulWidget {
-  const Chart({super.key});
+class ChartWeight extends StatefulWidget {
+  const ChartWeight({super.key});
 
   @override
-  State<Chart> createState() => _LineChartSample2State();
+  State<ChartWeight> createState() => _ChartWeightState();
 }
 
-class _LineChartSample2State extends State<Chart> {
+class _ChartWeightState extends State<ChartWeight> {
   List<Color> lineGradientColors = [
-    AppColors.cyan,
-    AppColors.cyan,
+    AppColors.pastelOrange,
+    AppColors.pastelOrange,
   ];
 
   List<Color> gradientColors = [
-    AppColors.cyan,
+    AppColors.pastelOrange,
     AppColors.surface,
   ];
 
@@ -47,27 +47,27 @@ class _LineChartSample2State extends State<Chart> {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    final style = AppStyles.righteousTextStyle;
+    final style = AppStyles.righteous12TextStyle;
 
     Widget text;
     switch (value.toInt()) {
       case 0:
-        text =  Text('JAN', style: style);
+        text = Text('JAN', style: style);
         break;
       case 2:
-        text =  Text('MAR', style: style);
+        text = Text('MAR', style: style);
         break;
       case 5:
-        text =  Text('JUN', style: style);
+        text = Text('JUN', style: style);
         break;
       case 8:
-        text =  Text('SEP', style: style);
+        text = Text('SEP', style: style);
         break;
       case 10:
-        text =  Text('DEZ', style: style);
+        text = Text('DEZ', style: style);
         break;
       default:
-        text =  Text('', style: style);
+        text = Text('', style: style);
         break;
     }
 
@@ -78,18 +78,18 @@ class _LineChartSample2State extends State<Chart> {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    final style = AppStyles.righteousTextStyle;
+    final style = AppStyles.righteous10TextStyle;
 
     String text;
     switch (value.toInt()) {
       case 1:
-        text = '5 km';
+        text = '22.5 kg';
         break;
       case 3:
-        text = '10 km';
+        text = '23 kg';
         break;
       case 5:
-        text = '15 km';
+        text = '24.5 kg';
         break;
       default:
         return Container();

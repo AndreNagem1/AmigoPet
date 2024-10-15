@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../colors/app_colors.dart';
 import '../pet_info_container/info_header.dart';
-import 'chart.dart';
+import 'chart_walking.dart';
 
 class ChartWalkingWidget extends StatelessWidget {
   const ChartWalkingWidget({super.key});
@@ -21,7 +21,7 @@ class ChartWalkingWidget extends StatelessWidget {
               labelColor: AppColors.cyan,
             ),
           ),
-          Chart(),
+          WalkingChart(),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:amigo_pet/colors/app_colors.dart';
 import 'package:amigo_pet/common_ui/divider.dart';
 import 'package:amigo_pet/home/presentation/model/pet_dialog_info.dart';
+import 'package:amigo_pet/home/presentation/pet_dialog/pet_dialog_distance_per_day.dart';
 import 'package:amigo_pet/home/presentation/pet_dialog/pet_dialog_item.dart';
 import 'package:amigo_pet/home/presentation/pet_dialog/status_row.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class PetDialog extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(width: 14),
                 Text(
                   info.name,
                   style: GoogleFonts.righteous(
@@ -47,6 +48,8 @@ class PetDialog extends StatelessWidget {
                     ),
                   ),
                 ),
+                Spacer(),
+                PetDialogDistancePerDay()
               ],
             ),
             SizedBox(height: 20),
