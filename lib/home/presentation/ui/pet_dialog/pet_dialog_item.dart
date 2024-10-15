@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../colors/app_colors.dart';
+import '../../../../colors/app_colors.dart';
 
 class PetDialogItem extends StatelessWidget {
   final IconData icon;

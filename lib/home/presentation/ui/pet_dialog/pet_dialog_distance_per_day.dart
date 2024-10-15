@@ -1,7 +1,7 @@
 import 'package:amigo_pet/common_ui/letter_decoration.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../../colors/app_colors.dart';
+import '../../../../colors/app_colors.dart';
 
 class PetDialogDistancePerDay extends StatelessWidget {
   const PetDialogDistancePerDay({super.key});

@@ -1,5 +1,5 @@
 import 'package:amigo_pet/home/presentation/app_floating_action_button.dart';
-import 'package:amigo_pet/home/presentation/pet_dialog/pet_dialog.dart';
+import 'package:amigo_pet/home/presentation/ui/add_pet_dialog/add_pet_dialog.dart';
 import 'package:amigo_pet/home/presentation/viewmodel/home_cubit.dart';
 import 'package:amigo_pet/home/presentation/viewmodel/home_state.dart';
 import 'package:amigo_pet/pet_details/presentation/pet_details_screen.dart';
@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../pet_dialog/pet_dialog.dart';
 import 'home_loading.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: AppFloatingActionButton(
         onPress: () {
-          navigateToPetDetails(context);
+          _showMyDialog(context);
         },
       ),
       body: Container(
@@ -65,6 +66,16 @@ class HomeScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PetDetailsScreen()),
+    );
+  }
+
+  Future<void> _showMyDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AddPetDialog();
+      },
     );
   }
 }
