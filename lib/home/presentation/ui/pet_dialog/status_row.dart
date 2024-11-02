@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../colors/app_colors.dart';
+import '../../../../common_ui/letter_decoration.dart';
 
 
 class StatusRow extends StatelessWidget {
@@ -41,12 +42,7 @@ class StatusRow extends StatelessWidget {
         SizedBox(width: 10),
         Text(
           label,
-          style: GoogleFonts.righteous(
-            textStyle: TextStyle(
-              fontSize: 12,
-              color: AppColors.letterColor,
-            ),
-          ),
+          style: AppStyles.poppins12TextStyle,
         )
       ],
     );

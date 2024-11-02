@@ -33,7 +33,7 @@ class AddPetInput extends StatelessWidget {
               hintText: label,
               hintStyle: TextStyle(color: labelColor),
             ),
-            style: AppStyles.righteous14TextStyle,
+            style: AppStyles.poppins14TextStyle,
             keyboardType: inputType ?? TextInputType.text,
           ),
         ),

@@ -21,7 +21,7 @@ class AddPetDialog extends StatelessWidget {
             children: [
               Text(
                 'Novo amigo',
-                style: AppStyles.righteous18TextStyle,
+                style: AppStyles.poppins18TextStyle,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -84,7 +84,7 @@ class AddPetDialog extends StatelessWidget {
         TextButton(
           child: Text(
             'Cancelar',
-            style: AppStyles.righteous12TextStyle,
+            style: AppStyles.poppins12TextStyle,
           ),
           onPressed: () {
             Navigator.of(context).pop(); // Close the dialog

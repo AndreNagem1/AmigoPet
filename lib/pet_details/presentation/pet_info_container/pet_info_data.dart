@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../colors/app_colors.dart';
+import '../../../common_ui/letter_decoration.dart';
 
 class PetInfoData extends StatelessWidget {
   final String data;
@@ -15,12 +16,7 @@ class PetInfoData extends StatelessWidget {
       children: [
         Text(
           data,
-          style: GoogleFonts.righteous(
-            textStyle: TextStyle(
-              fontSize: 12,
-              color: AppColors.letterColor,
-            ),
-          ),
+          style: AppStyles.poppins12TextStyle,
         ),
       ],
     );

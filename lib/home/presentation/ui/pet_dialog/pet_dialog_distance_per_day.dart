@@ -24,11 +24,11 @@ class PetDialogDistancePerDay extends StatelessWidget {
           children: [
             Text(
               'Total percorrido hoje',
-              style: AppStyles.righteous10TextStyle.copyWith(color: AppColors.warmGreen),
+              style: AppStyles.poppins10TextStyle.copyWith(color: AppColors.warmGreen),
             ),
             Text(
               '24 m',
-              style: AppStyles.righteous18TextStyle.copyWith(color: AppColors.warmGreen),
+              style: AppStyles.poppins18TextStyle.copyWith(color: AppColors.warmGreen),
             ),
           ],
         ),

@@ -43,7 +43,7 @@ class _ExpandableWidgetState extends State<PetInfoExpandable> {
                   children: [
                     Text(
                       widget.label,
-                      style: AppStyles.righteous12TextStyle,
+                      style: AppStyles.poppins12TextStyle,
                     ),
                     Container(
                       height: 24,
@@ -85,7 +85,7 @@ class _ExpandableWidgetState extends State<PetInfoExpandable> {
               child: Text(
                 'Here is some expandable content! '
                 'You can place any widget here, such as a list, text, or images.',
-                style: AppStyles.righteous12TextStyle,
+                style: AppStyles.poppins12TextStyle,
               ),
             ),
           ),

@@ -47,7 +47,7 @@ class _ChartWeightState extends State<ChartWeight> {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    final style = AppStyles.righteous12TextStyle;
+    final style = AppStyles.poppins12TextStyle;
 
     Widget text;
     switch (value.toInt()) {
@@ -78,7 +78,7 @@ class _ChartWeightState extends State<ChartWeight> {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    final style = AppStyles.righteous10TextStyle;
+    final style = AppStyles.poppins10TextStyle;
 
     String text;
     switch (value.toInt()) {

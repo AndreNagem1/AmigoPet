@@ -47,7 +47,7 @@ class _LineChartSample2State extends State<WalkingChart> {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    final style = AppStyles.righteous12TextStyle;
+    final style = AppStyles.poppins12TextStyle;
 
     Widget text;
     switch (value.toInt()) {
@@ -78,7 +78,7 @@ class _LineChartSample2State extends State<WalkingChart> {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    final style = AppStyles.righteous12TextStyle;
+    final style = AppStyles.poppins12TextStyle;
 
     String text;
     switch (value.toInt()) {
