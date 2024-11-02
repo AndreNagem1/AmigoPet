@@ -41,6 +41,9 @@ dependencies:
   google_fonts: ^4.0.4
   fl_chart: ^0.69.0
   shimmer: ^3.0.0
+  location: ^7.0.1
+  pedometer: ^4.0.2
+  flutter_local_notifications: ^17.2.4
 
 dev_dependencies:
   flutter_test:
