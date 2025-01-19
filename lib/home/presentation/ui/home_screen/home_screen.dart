@@ -2,11 +2,12 @@ import 'package:amigo_pet/home/presentation/app_floating_action_button.dart';
 import 'package:amigo_pet/home/presentation/ui/add_pet_dialog/add_pet_dialog.dart';
 import 'package:amigo_pet/home/presentation/viewmodel/home_cubit.dart';
 import 'package:amigo_pet/home/presentation/viewmodel/home_state.dart';
-import 'package:amigo_pet/pet_details/presentation/pet_details_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../pet_details/presentation/pet_details_screen.dart';
+import '../../../../tracking/presentation/tracking_screen.dart';
 import '../pet_dialog/pet_dialog.dart';
 import 'home_loading.dart';
 

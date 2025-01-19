@@ -10,6 +10,8 @@ class HomeCubit extends Cubit<HomeState> {
     await Future.delayed(Duration(milliseconds: 300));
     emit(ListPetInfo(listPetInfo));
   }
+
+  void initBackgroundTracking() {}
 }
 
 final listPetInfo = [

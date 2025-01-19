@@ -5,7 +5,6 @@ import 'package:amigo_pet/home/presentation/ui/pet_dialog/pet_dialog_distance_pe
 import 'package:amigo_pet/home/presentation/ui/pet_dialog/pet_dialog_item.dart';
 import 'package:amigo_pet/home/presentation/ui/pet_dialog/status_row.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../common_ui/letter_decoration.dart';
 
@@ -43,7 +42,7 @@ class PetDialog extends StatelessWidget {
                 const SizedBox(width: 14),
                 Text(
                   info.name,
-                  style: AppStyles.poppins12TextStyle,
+                  style: AppStyles.poppins14TextStyle,
                 ),
                 Spacer(),
                 PetDialogDistancePerDay()
