@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "45490087957",
+    "project_id": "amigopet-3f647",
+    "storage_bucket": "amigopet-3f647.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45490087957:android:a89db9350ac5a6962fc61c",
+        "android_client_info": {
+          "package_name": "com.amigopet.amigo_pet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8i-Uzc4KY3rLYst-dFfaNjLGT74qwD0c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
