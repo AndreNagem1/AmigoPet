@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../colors/app_colors.dart';
 import '../../../common_ui/surface_decoration.dart';
+import 'add_medication_item_dialog.dart';
 
 class PetInfoExpandable extends StatefulWidget {
   final String label;
@@ -75,22 +76,43 @@ class _ExpandableWidgetState extends State<PetInfoExpandable> {
         ),
         AnimatedContainer(
           duration: Duration(milliseconds: 100),
-          // Animation duration
           height: _isExpanded ? 100 : 0,
-          // Expand to 200px height when open, 0 when closed
           decoration: surfaceDecorationRoundedBottom,
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                'Here is some expandable content! '
-                'You can place any widget here, such as a list, text, or images.',
-                style: AppStyles.poppins12TextStyle,
-              ),
-            ),
+                padding: EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _showAddMedicationDialog(context);
+                      },
+                      child: Text(
+                        'Adicionar  ${widget.label}',
+                        style: TextStyle(color: AppColors.warmGreen),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(
+                          AppColors.warmGreen.withOpacity(0.3),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
           ),
         ),
       ],
     );
   }
+}
+
+Future<void> _showAddMedicationDialog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AddMedicationItemDialog();
+    },
+  );
 }

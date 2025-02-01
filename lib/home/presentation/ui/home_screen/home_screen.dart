@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../pet_details/presentation/pet_details_screen.dart';
-import '../../../../tracking/presentation/tracking_screen.dart';
 import '../pet_dialog/pet_dialog.dart';
 import 'home_loading.dart';
 

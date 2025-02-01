@@ -1,18 +1,25 @@
 import 'package:amigo_pet/common_ui/letter_decoration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class AddPetInput extends StatelessWidget {
+class PetInputText extends StatelessWidget {
   final Color labelColor;
   final String label;
   final TextInputType? inputType;
 
-  const AddPetInput({
+  PetInputText({
     super.key,
     required this.labelColor,
     required this.label,
     this.inputType,
   });
+
+  final dateMaskFormatter = MaskTextInputFormatter(
+    mask: '##/##/####',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +42,11 @@ class AddPetInput extends StatelessWidget {
             ),
             style: AppStyles.poppins14TextStyle,
             keyboardType: inputType ?? TextInputType.text,
+            inputFormatters:
+                inputType == TextInputType.datetime ? [dateMaskFormatter] : [],
           ),
         ),
-        SizedBox(height: 6)
+        SizedBox(height: 6),
       ],
     );
   }

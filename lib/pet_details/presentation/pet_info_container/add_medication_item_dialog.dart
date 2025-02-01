@@ -1,14 +1,20 @@
 import 'package:amigo_pet/colors/app_colors.dart';
 import 'package:amigo_pet/common_ui/highlighted_text.dart';
 import 'package:amigo_pet/common_ui/letter_decoration.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common_ui/divider.dart';
-import 'add_pet_input.dart';
+import '../../../home/presentation/ui/add_pet_dialog/add_pet_input.dart';
 
-class AddPetDialog extends StatelessWidget {
-  const AddPetDialog({super.key});
+class AddMedicationItemDialog extends StatefulWidget {
+  const AddMedicationItemDialog({super.key});
+
+  @override
+  State<AddMedicationItemDialog> createState() => _AddMedicationItemDialog();
+}
+
+class _AddMedicationItemDialog extends State<AddMedicationItemDialog> {
+  bool isSwitched = false;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,7 @@ class AddPetDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                'Novo amigo',
+                'Novo registro',
                 style: AppStyles.poppins18TextStyle,
               ),
               Container(
@@ -35,13 +41,13 @@ class AddPetDialog extends StatelessWidget {
                     color: Colors.white38,
                     width: 1,
                   ),
-                  color: AppColors.pastelOrange.withOpacity(0.2),
+                  color: AppColors.warmGreen.withOpacity(0.2),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(
-                    Icons.pets_outlined,
-                    color: AppColors.pastelOrange,
+                    Icons.health_and_safety,
+                    color: AppColors.warmGreen,
                   ),
                 ),
               )
@@ -55,26 +61,47 @@ class AddPetDialog extends StatelessWidget {
         child: ListBody(
           children: <Widget>[
             PetInputText(
-              labelColor: AppColors.warmGreen,
-              label: 'Nome',
-            ),
-            PetInputText(
-              labelColor: AppColors.cyan,
-              label: 'Data de nascimento',
+              labelColor: AppColors.lightTeal,
+              label: 'Data',
               inputType: TextInputType.datetime,
             ),
             PetInputText(
-              labelColor: AppColors.pastelOrange,
-              label: 'Peso (Opicional)',
-              inputType: TextInputType.number,
+              labelColor: AppColors.lightTeal,
+              label: 'Descrição',
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Recorrência',
+                  style: AppStyles.poppins12TextStyle,
+                ),
+                SizedBox(width: 10),
+                Switch(
+                  activeColor: AppColors.warmGreen,
+                  inactiveTrackColor: AppColors.background,
+                  value: isSwitched,
+                  onChanged: (value) {
+                    setState(() {
+                      isSwitched = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            if (isSwitched)
+              PetInputText(
+                labelColor: AppColors.lightTeal,
+                label: 'Frequência (dias)',
+                inputType: TextInputType.number,
+              ),
           ],
         ),
       ),
       actions: <Widget>[
         TextButton(
           child: HighLightedText(
-            label :'Adicionar',
+            label: 'Adicionar',
             labelColor: AppColors.letterColor,
           ),
           onPressed: () {
@@ -92,6 +119,5 @@ class AddPetDialog extends StatelessWidget {
         ),
       ],
     );
-    ;
   }
 }

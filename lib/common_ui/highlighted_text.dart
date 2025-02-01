@@ -26,7 +26,7 @@ class HighLightedText extends StatelessWidget {
         color: labelColor.withOpacity(0.2),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(2.0),
+        padding: const EdgeInsets.all(3.5),
         child: Text(
           label,
           style: AppStyles.poppins12TextStyle,
