@@ -1,23 +1,48 @@
 import 'package:amigo_pet/colors/app_colors.dart';
 import 'package:amigo_pet/common_ui/highlighted_text.dart';
 import 'package:amigo_pet/common_ui/letter_decoration.dart';
+import 'package:amigo_pet/pet_details/domain/add_item_dialog/add_medication_item_dialog_cubit.dart';
+import 'package:amigo_pet/pet_details/domain/add_item_dialog/add_medication_item_dialog_state.dart';
+import 'package:amigo_pet/pet_details/presentation/enum/pet_info_enum.dart';
+import 'package:amigo_pet/pet_details/presentation/model/PetRemedyInfo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common_ui/divider.dart';
 import '../../../home/presentation/ui/add_pet_dialog/add_pet_input.dart';
 
 class AddMedicationItemDialog extends StatefulWidget {
-  const AddMedicationItemDialog({super.key});
+  final PetInfoType petInfoType;
+
+  const AddMedicationItemDialog({super.key, required this.petInfoType});
 
   @override
   State<AddMedicationItemDialog> createState() => _AddMedicationItemDialog();
 }
 
 class _AddMedicationItemDialog extends State<AddMedicationItemDialog> {
+  late final AddMedicationItemDialogCubit cubit;
   bool isSwitched = false;
 
   @override
+  void initState() {
+    super.initState();
+    cubit = AddMedicationItemDialogCubit(IdleState());
+  }
+
+  @override
+  void dispose() {
+    cubit.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var date = DateTime.now();
+    var name = '';
+    var isRecurrent = false;
+    var recurrenceInDays = null;
+
     return AlertDialog(
       backgroundColor: AppColors.surface,
       title: Column(
@@ -64,10 +89,14 @@ class _AddMedicationItemDialog extends State<AddMedicationItemDialog> {
               labelColor: AppColors.lightTeal,
               label: 'Data',
               inputType: TextInputType.datetime,
+              onValueChanged: (value) {},
             ),
             PetInputText(
               labelColor: AppColors.lightTeal,
               label: 'Descrição',
+              onValueChanged: (value) {
+                name = value;
+              },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -94,18 +123,42 @@ class _AddMedicationItemDialog extends State<AddMedicationItemDialog> {
                 labelColor: AppColors.lightTeal,
                 label: 'Frequência (dias)',
                 inputType: TextInputType.number,
+                onValueChanged: (value) {},
               ),
           ],
         ),
       ),
       actions: <Widget>[
-        TextButton(
-          child: HighLightedText(
-            label: 'Adicionar',
-            labelColor: AppColors.letterColor,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop(); // Close the dialog
+        BlocBuilder<AddMedicationItemDialogCubit, AddMedicationItemDialogState>(
+          bloc: cubit,
+          builder: (context, state) {
+            return switch (state) {
+              IdleState() => TextButton(
+                  child: HighLightedText(
+                    label: 'Adicionar',
+                    labelColor: AppColors.letterColor,
+                  ),
+                  onPressed: () {
+                    cubit.savePetExamInfo(
+                      PetRemedyInfo(
+                        date: date,
+                        name: name,
+                        isRecurrent: isRecurrent,
+                        recurrenceInDays: recurrenceInDays,
+                      ),
+                      widget.petInfoType,
+                    ); // Close the dialog
+                  },
+                ),
+              LoadingState() => const CircularProgressIndicator(),
+              ErrorState() => Center(
+                  child: Text(
+                    "Error loading data",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              _ => throw UnimplementedError(),
+            };
           },
         ),
         TextButton(

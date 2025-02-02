@@ -4,9 +4,12 @@ import 'package:amigo_pet/pet_details/presentation/pet_info_container/pet_info_s
 import 'package:flutter/cupertino.dart';
 
 import '../charts/chart_walking_widget.dart';
+import '../model/PetRemedyInfo.dart';
 
 class PetInfoContent extends StatelessWidget {
-  const PetInfoContent({super.key});
+  const PetInfoContent({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

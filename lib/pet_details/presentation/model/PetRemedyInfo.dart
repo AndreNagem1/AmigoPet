@@ -1,13 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PetRemedyInfo {
   DateTime date;
   String name;
   bool isRecurrent;
-  int recurrenceInDays;
+  int? recurrenceInDays;
 
   PetRemedyInfo({
     required this.date,
     required this.name,
     required this.isRecurrent,
-    required this.recurrenceInDays,
+    this.recurrenceInDays,
   });
 }

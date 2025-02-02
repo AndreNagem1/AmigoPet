@@ -57,16 +57,19 @@ class AddPetDialog extends StatelessWidget {
             PetInputText(
               labelColor: AppColors.warmGreen,
               label: 'Nome',
+              onValueChanged: (info) {},
             ),
             PetInputText(
               labelColor: AppColors.cyan,
               label: 'Data de nascimento',
               inputType: TextInputType.datetime,
+              onValueChanged: (info) {},
             ),
             PetInputText(
               labelColor: AppColors.pastelOrange,
               label: 'Peso (Opicional)',
               inputType: TextInputType.number,
+              onValueChanged: (info) {},
             ),
           ],
         ),

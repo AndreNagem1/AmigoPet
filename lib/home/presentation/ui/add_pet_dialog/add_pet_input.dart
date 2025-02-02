@@ -7,11 +7,13 @@ class PetInputText extends StatelessWidget {
   final Color labelColor;
   final String label;
   final TextInputType? inputType;
+  final Function(String) onValueChanged;
 
   PetInputText({
     super.key,
     required this.labelColor,
     required this.label,
+    required this.onValueChanged,
     this.inputType,
   });
 
@@ -44,6 +46,9 @@ class PetInputText extends StatelessWidget {
             keyboardType: inputType ?? TextInputType.text,
             inputFormatters:
                 inputType == TextInputType.datetime ? [dateMaskFormatter] : [],
+            onChanged: (value) {
+              onValueChanged(value);
+            },
           ),
         ),
         SizedBox(height: 6),
