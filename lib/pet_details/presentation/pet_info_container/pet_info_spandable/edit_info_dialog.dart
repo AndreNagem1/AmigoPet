@@ -1,18 +1,24 @@
 import 'package:amigo_pet/colors/app_colors.dart';
 import 'package:amigo_pet/common_ui/letter_decoration.dart';
+import 'package:amigo_pet/pet_details/domain/edit_info_dialog/edit_info_dialog_cubit.dart';
+import 'package:amigo_pet/pet_details/presentation/enum/pet_info_enum.dart';
 import 'package:amigo_pet/pet_details/presentation/model/PetRemedyInfo.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common_ui/divider.dart';
 import '../../../../common_ui/highlighted_text.dart';
+import '../../../domain/edit_info_dialog/edit_info_dialog_state.dart';
 
 class InfoDialog extends StatelessWidget {
   final PetRemedyInfo info;
+  final PetInfoType type;
 
-  const InfoDialog({super.key, required this.info});
+  const InfoDialog({super.key, required this.info, required this.type});
 
   @override
   Widget build(BuildContext context) {
+    final cubit = EditInfoDialogCubit(IdleState());
+
     return AlertDialog(
       backgroundColor: AppColors.surface,
       title: Column(
@@ -53,33 +59,52 @@ class InfoDialog extends StatelessWidget {
         ],
       ),
       content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            info.name,
-            style: AppStyles.poppins12TextStyle,
+          InfoRow(label: 'Nome', value: info.name),
+          SizedBox(height: 4.0),
+          InfoRow(
+            label: 'Data',
+            value: "${info.date.day}/${info.date.month}/${info.date.year}",
           ),
-          Text(
-            info.date.toString(),
-            style: AppStyles.poppins12TextStyle,
-          ),
+          SizedBox(height: 4.0),
           if (info.isRecurrent)
-            Text(
-              "${info.date.day}/${info.date.month}/${info.date.year}" +
-                  ' frequência em dias ',
-              style: AppStyles.poppins12TextStyle,
-            ),
+            InfoRow(
+                label: 'Frequência',
+                value: info.recurrenceInDays.toString() + ' dias'),
+          SizedBox(height: 4.0),
           if (info.isRecurrent)
-            HighLightedText(
-              labelColor: AppColors.warmGreen,
-              label: 'Em dia',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                HighLightedText(
+                  labelColor: AppColors.cyan,
+                  label: 'Status',
+                ),
+                HighLightedText(
+                  labelColor: AppColors.warmGreen,
+                  label: 'Em dia',
+                ),
+              ],
             ),
+          SizedBox(height: 4.0),
         ],
       ),
       actions: <Widget>[
         TextButton(
+          child: HighLightedText(
+            label: 'Deletar',
+            labelColor: AppColors.pastelOrange,
+          ),
+          onPressed: () {
+            cubit.deletePetExamInfo(info.Id, type);
+            Navigator.of(context).pop(); // Close the dialog
+          },
+        ),
+        TextButton(
           child: Text(
-            'Salvar',
+            'Editar',
             style: AppStyles.poppins12TextStyle,
           ),
           onPressed: () {
@@ -94,6 +119,34 @@ class InfoDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop(); // Close the dialog
           },
+        ),
+      ],
+    );
+  }
+}
+
+class InfoRow extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const InfoRow({
+    super.key,
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        HighLightedText(
+          labelColor: AppColors.cyan,
+          label: label,
+        ),
+        Text(
+          value,
+          style: AppStyles.poppins12TextStyle,
         ),
       ],
     );

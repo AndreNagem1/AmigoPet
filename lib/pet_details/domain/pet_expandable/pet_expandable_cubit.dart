@@ -21,6 +21,7 @@ class PetDetailsCubit extends Cubit<PetExpandableState> {
       await db.collection(infoType.type).get().then((event) {
         for (var doc in event.docs) {
           final petRemedyInfo = PetRemedyInfo(
+            Id: doc['id'],
             date: DateTime.parse(doc['date']),
             name: doc['name'],
             isRecurrent: doc['recurrent'],

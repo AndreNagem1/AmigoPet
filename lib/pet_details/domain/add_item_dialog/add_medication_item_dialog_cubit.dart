@@ -13,15 +13,37 @@ class AddMedicationItemDialogCubit extends Cubit<AddMedicationItemDialogState> {
   Future<void> savePetExamInfo(
       PetRemedyInfo petRemedyInfo, PetInfoType petInfoType) async {
     emit(LoadingState());
-    DateTime now = DateTime.now();
 
-    Map<String, dynamic> data = {
-      'name': petRemedyInfo.name,
-      'date': petRemedyInfo.date.toString(),
-      'recurrent': petRemedyInfo.isRecurrent,
-      'recurrenceInDays': petRemedyInfo.recurrenceInDays,
-    };
+    try {
+      CollectionReference collectionRef = db.collection(petInfoType.type);
 
-    await db.collection(petInfoType.type).doc().set(data);
+      QuerySnapshot snapshot = await collectionRef.get();
+
+      int nextId = 0;
+      if (snapshot.docs.isNotEmpty) {
+        List<int> ids = snapshot.docs
+            .map((doc) => int.tryParse(doc.id) ?? -1)
+            .where((id) => id >= 0)
+            .toList();
+
+        if (ids.isNotEmpty) {
+          nextId = ids.reduce((a, b) => a > b ? a : b) + 1;
+        }
+      }
+
+      Map<String, dynamic> data = {
+        'id': nextId,
+        'name': petRemedyInfo.name,
+        'date': petRemedyInfo.date.toString(),
+        'recurrent': petRemedyInfo.isRecurrent,
+        'recurrenceInDays': petRemedyInfo.recurrenceInDays,
+      };
+
+      await collectionRef.doc(nextId.toString()).set(data);
+
+      emit(SuccessState());
+    } catch (e) {
+      emit(ErrorState());
+    }
   }
 }

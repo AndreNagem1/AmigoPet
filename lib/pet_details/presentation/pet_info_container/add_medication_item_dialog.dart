@@ -5,7 +5,7 @@ import 'package:amigo_pet/pet_details/domain/add_item_dialog/add_medication_item
 import 'package:amigo_pet/pet_details/domain/add_item_dialog/add_medication_item_dialog_state.dart';
 import 'package:amigo_pet/pet_details/presentation/enum/pet_info_enum.dart';
 import 'package:amigo_pet/pet_details/presentation/model/PetRemedyInfo.dart';
-import 'package:amigo_pet/pet_details/presentation/pet_info_container/pet_info_spandable/info_dialog.dart';
+import 'package:amigo_pet/pet_details/presentation/pet_info_container/pet_info_spandable/edit_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -159,6 +159,22 @@ class _AddMedicationItemDialog extends State<AddMedicationItemDialog> {
                     "Error loading data",
                     style: TextStyle(color: Colors.red),
                   ),
+                ),
+              SuccessState() => Builder(
+                  builder: (context) {
+                    WidgetsBinding.instance.addPostFrameCallback(
+                      (_) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Registro adicionado!"),
+                            backgroundColor: AppColors.surface,
+                          ),
+                        );
+                        Navigator.pop(context);
+                      },
+                    );
+                    return const SizedBox.shrink();
+                  },
                 ),
               _ => throw UnimplementedError(),
             };

@@ -1,3 +1,4 @@
+import 'package:amigo_pet/pet_details/presentation/enum/pet_info_enum.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -6,18 +7,23 @@ import '../../../../common_ui/divider.dart';
 import '../../../../common_ui/highlighted_text.dart';
 import '../../../../common_ui/letter_decoration.dart';
 import '../../model/PetRemedyInfo.dart';
-import 'info_dialog.dart';
+import 'edit_info_dialog.dart';
 
 class PetInfoSpandableSuccessRow extends StatelessWidget {
   final PetRemedyInfo info;
+  final PetInfoType type;
 
-  const PetInfoSpandableSuccessRow({super.key, required this.info});
+  const PetInfoSpandableSuccessRow({
+    super.key,
+    required this.info,
+    required this.type,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _showInfoDialog(context, info);
+        _showInfoDialog(context, info, type);
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 16.0),
@@ -66,6 +72,7 @@ class PetInfoSpandableSuccessRow extends StatelessWidget {
 Future<void> _showInfoDialog(
   BuildContext context,
   PetRemedyInfo info,
+  PetInfoType type,
 ) async {
   return showDialog<void>(
     context: context,
@@ -73,6 +80,7 @@ Future<void> _showInfoDialog(
     builder: (BuildContext context) {
       return InfoDialog(
         info: info,
+        type: type,
       );
     },
   );

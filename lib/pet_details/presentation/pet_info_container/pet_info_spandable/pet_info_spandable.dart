@@ -125,8 +125,10 @@ class _PetInfoExpandableState extends State<PetInfoExpandable> {
                           ),
                         SuccessState(:final data) => Column(
                             children: data
-                                .map((info) =>
-                                    PetInfoSpandableSuccessRow(info: info))
+                                .map((info) => PetInfoSpandableSuccessRow(
+                                      info: info,
+                                      type: widget.infoType,
+                                    ))
                                 .toList(),
                           ),
                         LoadingState() =>
@@ -182,5 +184,3 @@ Future<void> _showAddMedicationDialog(
     },
   );
 }
-
-
