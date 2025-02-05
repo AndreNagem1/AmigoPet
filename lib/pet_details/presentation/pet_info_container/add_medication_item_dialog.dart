@@ -5,6 +5,7 @@ import 'package:amigo_pet/pet_details/domain/add_item_dialog/add_medication_item
 import 'package:amigo_pet/pet_details/domain/add_item_dialog/add_medication_item_dialog_state.dart';
 import 'package:amigo_pet/pet_details/presentation/enum/pet_info_enum.dart';
 import 'package:amigo_pet/pet_details/presentation/model/PetRemedyInfo.dart';
+import 'package:amigo_pet/pet_details/presentation/pet_info_container/pet_info_spandable/info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,6 +24,10 @@ class AddMedicationItemDialog extends StatefulWidget {
 class _AddMedicationItemDialog extends State<AddMedicationItemDialog> {
   late final AddMedicationItemDialogCubit cubit;
   bool isSwitched = false;
+  var date = DateTime.now();
+  var name = '';
+  var isRecurrent = false;
+  var recurrenceInDays = 0;
 
   @override
   void initState() {
@@ -38,11 +43,6 @@ class _AddMedicationItemDialog extends State<AddMedicationItemDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var date = DateTime.now();
-    var name = '';
-    var isRecurrent = false;
-    var recurrenceInDays = null;
-
     return AlertDialog(
       backgroundColor: AppColors.surface,
       title: Column(
@@ -112,6 +112,7 @@ class _AddMedicationItemDialog extends State<AddMedicationItemDialog> {
                   value: isSwitched,
                   onChanged: (value) {
                     setState(() {
+                      isRecurrent = value;
                       isSwitched = value;
                     });
                   },
@@ -123,7 +124,9 @@ class _AddMedicationItemDialog extends State<AddMedicationItemDialog> {
                 labelColor: AppColors.lightTeal,
                 label: 'Frequência (dias)',
                 inputType: TextInputType.number,
-                onValueChanged: (value) {},
+                onValueChanged: (value) {
+                  recurrenceInDays = int.parse(value);
+                },
               ),
           ],
         ),

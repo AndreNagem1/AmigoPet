@@ -1,23 +1,23 @@
 import 'package:amigo_pet/common_ui/divider.dart';
 import 'package:amigo_pet/common_ui/letter_decoration.dart';
 import 'package:amigo_pet/pet_details/domain/pet_expandable/pet_expandable_cubit.dart';
-import 'package:amigo_pet/pet_details/presentation/model/PetRemedyInfo.dart';
+import 'package:amigo_pet/pet_details/presentation/pet_info_container/pet_info_spandable/pet_info_spandable_success_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../colors/app_colors.dart';
-import '../../../common_ui/surface_decoration.dart';
-import '../../domain/pet_expandable/pet_expandable_state.dart';
-import '../enum/pet_info_enum.dart';
-import 'add_medication_item_dialog.dart';
+import '../../../../colors/app_colors.dart';
+import '../../../../common_ui/surface_decoration.dart';
+import '../../../domain/pet_expandable/pet_expandable_state.dart';
+import '../../enum/pet_info_enum.dart';
+import '../add_medication_item_dialog.dart';
 
 class PetInfoExpandable extends StatefulWidget {
   final String label;
+  final PetInfoType infoType;
 
-  const PetInfoExpandable({
-    Key? key,
-    required this.label,
-  }) : super(key: key);
+  const PetInfoExpandable(
+      {Key? key, required this.label, required this.infoType})
+      : super(key: key);
 
   @override
   State<PetInfoExpandable> createState() => _PetInfoExpandableState();
@@ -31,7 +31,7 @@ class _PetInfoExpandableState extends State<PetInfoExpandable> {
   void initState() {
     super.initState();
     cubit = PetDetailsCubit(LoadingState());
-    cubit.loadPetInfo();
+    cubit.loadPetInfo(widget.infoType);
   }
 
   @override
@@ -47,7 +47,7 @@ class _PetInfoExpandableState extends State<PetInfoExpandable> {
         () {
           _isExpanded = !_isExpanded;
           if (_isExpanded) {
-            cubit.loadPetInfo();
+            cubit.loadPetInfo(widget.infoType);
           }
         },
       );
@@ -100,7 +100,7 @@ class _PetInfoExpandableState extends State<PetInfoExpandable> {
         ),
         AnimatedContainer(
           duration: Duration(milliseconds: 100),
-          height: _isExpanded ? 120 : 0,
+          height: _isExpanded ? 160 : 0,
           decoration: surfaceDecorationRoundedBottom,
           child: SingleChildScrollView(
             child: Padding(
@@ -125,22 +125,8 @@ class _PetInfoExpandableState extends State<PetInfoExpandable> {
                           ),
                         SuccessState(:final data) => Column(
                             children: data
-                                .map(
-                                  (info) => Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        info.name,
-                                        style: AppStyles.poppins12TextStyle,
-                                      ),
-                                      SizedBox(width: 10),
-                                      Text(
-                                        "${info.date.day}/${info.date.month}/${info.date.year}",
-                                        style: AppStyles.poppins12TextStyle,
-                                      ),
-                                    ],
-                                  ),
-                                )
+                                .map((info) =>
+                                    PetInfoSpandableSuccessRow(info: info))
                                 .toList(),
                           ),
                         LoadingState() =>
@@ -156,7 +142,10 @@ class _PetInfoExpandableState extends State<PetInfoExpandable> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            _showAddMedicationDialog(context);
+                            _showAddMedicationDialog(
+                              context,
+                              widget.infoType,
+                            );
                           },
                           child: Text(
                             'Adicionar  ${widget.label}',
@@ -181,14 +170,17 @@ class _PetInfoExpandableState extends State<PetInfoExpandable> {
   }
 }
 
-Future<void> _showAddMedicationDialog(BuildContext context) async {
+Future<void> _showAddMedicationDialog(
+    BuildContext context, PetInfoType infoType) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AddMedicationItemDialog(
-        petInfoType: PetInfoType.medication,
+        petInfoType: infoType,
       );
     },
   );
 }
+
+

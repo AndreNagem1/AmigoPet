@@ -12,13 +12,13 @@ class PetDetailsCubit extends Cubit<PetExpandableState> {
 
   final db = FirebaseFirestore.instance;
 
-  Future<void> loadPetInfo() async {
+  Future<void> loadPetInfo(PetInfoType infoType) async {
     emit(LoadingState());
 
     List<PetRemedyInfo> listPetRemedies = [];
 
     try {
-      await db.collection(PetInfoType.medication.type).get().then((event) {
+      await db.collection(infoType.type).get().then((event) {
         for (var doc in event.docs) {
           final petRemedyInfo = PetRemedyInfo(
             date: DateTime.parse(doc['date']),

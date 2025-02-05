@@ -1,6 +1,7 @@
 import 'package:amigo_pet/pet_details/presentation/charts/chart_weight_widget.dart';
+import 'package:amigo_pet/pet_details/presentation/enum/pet_info_enum.dart';
 import 'package:amigo_pet/pet_details/presentation/pet_info_container/pet_info_container.dart';
-import 'package:amigo_pet/pet_details/presentation/pet_info_container/pet_info_spandable.dart';
+import 'package:amigo_pet/pet_details/presentation/pet_info_container/pet_info_spandable/pet_info_spandable.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../charts/chart_walking_widget.dart';
@@ -26,13 +27,25 @@ class PetInfoContent extends StatelessWidget {
           SizedBox(height: 20),
           ChartWeightWidget(),
           SizedBox(height: 20),
-          PetInfoExpandable(label: 'Vacinas'),
+          PetInfoExpandable(
+            label: 'Vacinas',
+            infoType: PetInfoType.vaccine,
+          ),
           SizedBox(height: 20),
-          PetInfoExpandable(label: 'Remédios'),
+          PetInfoExpandable(
+            label: 'Remédios',
+            infoType: PetInfoType.medication,
+          ),
           SizedBox(height: 20),
-          PetInfoExpandable(label: 'Exames'),
+          PetInfoExpandable(
+            label: 'Exames',
+            infoType: PetInfoType.exams,
+          ),
           SizedBox(height: 20),
-          PetInfoExpandable(label: 'Resultados')
+          PetInfoExpandable(
+            label: 'Resultados',
+            infoType: PetInfoType.results,
+          )
         ],
       ),
     );

@@ -1,7 +1,8 @@
 enum PetInfoType {
   medication("medication"),
   vaccine("vaccine"),
-  results("results");
+  results("results"),
+  exams("exames");
 
   final String type;
 
