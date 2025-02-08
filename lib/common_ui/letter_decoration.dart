@@ -27,4 +27,11 @@ class AppStyles {
       color: AppColors.letterColor,
     ),
   );
+  static final TextStyle poppins14W400TextStyle = GoogleFonts.poppins(
+    textStyle: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      color: AppColors.letterColor,
+    ),
+  );
 }

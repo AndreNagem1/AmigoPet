@@ -60,7 +60,7 @@ class PetInfoSpandableSuccessRow extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
-              child: AppDivider(),
+              child: AppDivider(thickness:0.1),
             ),
           ],
         ),

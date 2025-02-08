@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../colors/app_colors.dart';
 import '../../../../common_ui/surface_decoration.dart';
+import '../../../../save_results_screen/photos_gallery_screen.dart';
 import '../../../domain/pet_expandable/pet_expandable_state.dart';
 import '../../enum/pet_info_enum.dart';
 import '../add_medication_item_dialog.dart';
@@ -47,7 +48,11 @@ class _PetInfoExpandableState extends State<PetInfoExpandable> {
         () {
           _isExpanded = !_isExpanded;
           if (_isExpanded) {
-            cubit.loadPetInfo(widget.infoType);
+            if (widget.infoType.type == PetInfoType.results.type) {
+              navigateToImageScreen(context);
+            } else {
+              cubit.loadPetInfo(widget.infoType);
+            }
           }
         },
       );
@@ -56,7 +61,7 @@ class _PetInfoExpandableState extends State<PetInfoExpandable> {
     return Column(
       children: [
         GestureDetector(
-          onTap: _toggleExpand, // Handle tap to toggle open/close
+          onTap: _toggleExpand,
           child: Container(
             decoration:
                 _isExpanded ? surfaceDecorationRoundedTop : surfaceDecoration,
@@ -182,5 +187,12 @@ Future<void> _showAddMedicationDialog(
         petInfoType: infoType,
       );
     },
+  );
+}
+
+void navigateToImageScreen(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => PhotosGalleryScreen()),
   );
 }
