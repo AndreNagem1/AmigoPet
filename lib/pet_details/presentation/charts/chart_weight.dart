@@ -1,8 +1,12 @@
+import 'package:amigo_pet/pet_details/domain/chart_cubit/chart_cubit.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../colors/app_colors.dart';
 import '../../../common_ui/letter_decoration.dart';
+import 'add_chart_point_dialog.dart';
 
 class ChartWeight extends StatefulWidget {
   const ChartWeight({super.key});
@@ -12,6 +16,8 @@ class ChartWeight extends StatefulWidget {
 }
 
 class _ChartWeightState extends State<ChartWeight> {
+  late final ChartCubit cubit;
+
   List<Color> lineGradientColors = [
     AppColors.pastelOrange,
     AppColors.pastelOrange,
@@ -25,22 +31,86 @@ class _ChartWeightState extends State<ChartWeight> {
   bool showAvg = false;
 
   @override
+  void initState() {
+    super.initState();
+    cubit = ChartCubit(ChartLoading());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        AspectRatio(
-          aspectRatio: 1.70,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 18,
-              left: 12,
-              top: 24,
-              bottom: 12,
+        Column(
+          children: [
+            AspectRatio(
+              aspectRatio: 1.70,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  right: 18,
+                  left: 12,
+                  top: 24,
+                  bottom: 12,
+                ),
+                child: BlocBuilder<ChartCubit, ChartCubitState>(
+                  bloc: cubit,
+                  builder: (context, state) {
+                    return switch (state) {
+                      ChartLoading() => Center(
+                          child: const CircularProgressIndicator(
+                            color: AppColors.cyan,
+                          ),
+                        ),
+                      ChartEmpty() => Center(
+                          child: Text(
+                            'Você ainda não tem registros',
+                            style: AppStyles.poppins12TextStyle,
+                          ),
+                        ),
+                      ChartSuccess(:final chartPoints) => LineChart(
+                          mainData(chartPoints),
+                        ),
+                      ChartCubitState() => throw UnimplementedError(),
+                    };
+                  },
+                ),
+              ),
             ),
-            child: LineChart(
-              showAvg ? avgData() : mainData(),
+            ElevatedButton(
+              onPressed: () {
+                _showAddChartPointDialog(
+                  context,
+                  (chartPoint) {
+                    cubit.addChartPoint(chartPoint);
+                  },
+                );
+              },
+              child: Text(
+                'Adicionar  registro',
+                style: TextStyle(color: AppColors.warmGreen),
+              ),
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all(
+                  AppColors.warmGreen.withOpacity(0.3),
+                ),
+              ),
             ),
-          ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                cubit.removeChartPoint();
+              },
+              child: Text(
+                'Apagar',
+                style: TextStyle(color: AppColors.warmGreen),
+              ),
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all(
+                  AppColors.warmGreen.withOpacity(0.3),
+                ),
+              ),
+            ),
+            SizedBox(height: 20)
+          ],
         ),
       ],
     );
@@ -83,13 +153,13 @@ class _ChartWeightState extends State<ChartWeight> {
     String text;
     switch (value.toInt()) {
       case 1:
-        text = '22.5 kg';
+        text = '0 kg';
         break;
-      case 3:
-        text = '23 kg';
+      case 15:
+        text = '15 kg';
         break;
-      case 5:
-        text = '24.5 kg';
+      case 30:
+        text = '30.0 kg';
         break;
       default:
         return Container();
@@ -98,7 +168,7 @@ class _ChartWeightState extends State<ChartWeight> {
     return Text(text, style: style, textAlign: TextAlign.left);
   }
 
-  LineChartData mainData() {
+  LineChartData mainData(List<FlSpot> data) {
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -150,18 +220,10 @@ class _ChartWeightState extends State<ChartWeight> {
       minX: 0,
       maxX: 11,
       minY: 0,
-      maxY: 6,
+      maxY: 30,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ],
+          spots: data,
           isCurved: true,
           gradient: LinearGradient(
             colors: lineGradientColors,
@@ -183,101 +245,15 @@ class _ChartWeightState extends State<ChartWeight> {
       ],
     );
   }
+}
 
-  LineChartData avgData() {
-    return LineChartData(
-      lineTouchData: const LineTouchData(enabled: false),
-      gridData: FlGridData(
-        show: true,
-        drawHorizontalLine: true,
-        verticalInterval: 1,
-        horizontalInterval: 1,
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            getTitlesWidget: bottomTitleWidgets,
-            interval: 1,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-            interval: 1,
-          ),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xff37434d)),
-      ),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3.44),
-            FlSpot(2.6, 3.44),
-            FlSpot(4.9, 3.44),
-            FlSpot(6.8, 3.44),
-            FlSpot(8, 3.44),
-            FlSpot(9.5, 3.44),
-            FlSpot(11, 3.44),
-          ],
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: [
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-            ],
-          ),
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: [
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+Future<void> _showAddChartPointDialog(
+    BuildContext context, Function(FlSpot) onAdd) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AddChartPointDialog(onAdd: onAdd);
+    },
+  );
 }
