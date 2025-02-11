@@ -1,6 +1,6 @@
 import 'package:amigo_pet/pet_details/domain/chart_cubit/chart_cubit.dart';
+import 'package:amigo_pet/pet_details/presentation/charts/delete_chart_point_dialog.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,82 +38,94 @@ class _ChartWeightState extends State<ChartWeight> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Column(
-          children: [
-            AspectRatio(
-              aspectRatio: 1.70,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  right: 18,
-                  left: 12,
-                  top: 24,
-                  bottom: 12,
-                ),
-                child: BlocBuilder<ChartCubit, ChartCubitState>(
-                  bloc: cubit,
-                  builder: (context, state) {
-                    return switch (state) {
-                      ChartLoading() => Center(
-                          child: const CircularProgressIndicator(
-                            color: AppColors.cyan,
+    return BlocBuilder<ChartCubit, ChartCubitState>(
+        bloc: cubit,
+        builder: (context, state) {
+          return switch (state) {
+            ChartSuccess(:final chartPoints) => Stack(
+                children: [
+                  Column(
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1.70,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            right: 18,
+                            left: 12,
+                            top: 24,
+                            bottom: 12,
+                          ),
+                          child: LineChart(
+                            mainData(chartPoints),
                           ),
                         ),
-                      ChartEmpty() => Center(
-                          child: Text(
-                            'Você ainda não tem registros',
-                            style: AppStyles.poppins12TextStyle,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          _showAddChartPointDialog(
+                            context,
+                            (chartPoint) {
+                              cubit.addChartPoint(chartPoint);
+                            },
+                          );
+                        },
+                        child: Text(
+                          'Adicionar  registro',
+                          style: TextStyle(color: AppColors.warmGreen),
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                            AppColors.warmGreen.withOpacity(0.3),
                           ),
                         ),
-                      ChartSuccess(:final chartPoints) => LineChart(
-                          mainData(chartPoints),
+                      ),
+                      SizedBox(height: 20)
+                    ],
+                  ),
+                ],
+              ),
+            ChartOutOfRangeError(:final errorMessage) => Center(
+                child: Center(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 30),
+                      Text(
+                        errorMessage,
+                        style: AppStyles.poppins12TextStyle,
+                      ),
+                      SizedBox(height: 30),
+                      ElevatedButton(
+                        onPressed: () {
+                          cubit.loadChartPoints();
+                        },
+                        child: Text(
+                          'ok',
+                          style: TextStyle(color: AppColors.warmGreen),
                         ),
-                      ChartCubitState() => throw UnimplementedError(),
-                    };
-                  },
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                            AppColors.warmGreen.withOpacity(0.3),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _showAddChartPointDialog(
-                  context,
-                  (chartPoint) {
-                    cubit.addChartPoint(chartPoint);
-                  },
-                );
-              },
-              child: Text(
-                'Adicionar  registro',
-                style: TextStyle(color: AppColors.warmGreen),
-              ),
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(
-                  AppColors.warmGreen.withOpacity(0.3),
+            ChartLoading() => Center(
+                child: const CircularProgressIndicator(
+                  color: AppColors.cyan,
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                cubit.removeChartPoint();
-              },
-              child: Text(
-                'Apagar',
-                style: TextStyle(color: AppColors.warmGreen),
-              ),
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(
-                  AppColors.warmGreen.withOpacity(0.3),
+            ChartEmpty() => Center(
+                child: Text(
+                  'Você ainda não tem registros',
+                  style: AppStyles.poppins12TextStyle,
                 ),
               ),
-            ),
-            SizedBox(height: 20)
-          ],
-        ),
-      ],
-    );
+            ChartCubitState() => throw UnimplementedError(),
+          };
+        });
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
@@ -130,10 +142,13 @@ class _ChartWeightState extends State<ChartWeight> {
       case 5:
         text = Text('JUN', style: style);
         break;
-      case 8:
-        text = Text('SEP', style: style);
+      case 7:
+        text = Text('AGO', style: style);
         break;
-      case 10:
+      case 9:
+        text = Text('SET', style: style);
+        break;
+      case 11:
         text = Text('DEZ', style: style);
         break;
       default:
@@ -155,11 +170,11 @@ class _ChartWeightState extends State<ChartWeight> {
       case 1:
         text = '0 kg';
         break;
-      case 15:
-        text = '15 kg';
-        break;
       case 30:
-        text = '30.0 kg';
+        text = '30 kg';
+        break;
+      case 60:
+        text = '60.0 kg';
         break;
       default:
         return Container();
@@ -220,7 +235,7 @@ class _ChartWeightState extends State<ChartWeight> {
       minX: 0,
       maxX: 11,
       minY: 0,
-      maxY: 30,
+      maxY: 60,
       lineBarsData: [
         LineChartBarData(
           spots: data,
@@ -243,12 +258,40 @@ class _ChartWeightState extends State<ChartWeight> {
           ),
         ),
       ],
+      lineTouchData: LineTouchData(
+        touchCallback: (FlTouchEvent event, LineTouchResponse? response) {
+          if (event is FlLongPressStart && response?.lineBarSpots != null) {
+            final touchedSpot = response!.lineBarSpots!.first;
+            _showDeletePointDialog(
+              context,
+              () {
+                cubit.removeChartPoint(touchedSpot);
+              },
+            );
+          }
+        },
+      ),
     );
   }
 }
 
+Future<void> _showDeletePointDialog(
+  BuildContext context,
+  Function onDelete,
+) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return DeleteChartPointDialog(onDelete: onDelete);
+    },
+  );
+}
+
 Future<void> _showAddChartPointDialog(
-    BuildContext context, Function(FlSpot) onAdd) async {
+  BuildContext context,
+  Function(FlSpot) onAdd,
+) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: false,

@@ -10,6 +10,12 @@ class ChartLoading extends ChartCubitState {}
 
 class ChartEmpty extends ChartCubitState {}
 
+class ChartOutOfRangeError extends ChartCubitState {
+  final String errorMessage;
+
+  ChartOutOfRangeError(this.errorMessage);
+}
+
 class ChartSuccess extends ChartCubitState {
   final List<FlSpot> chartPoints;
 
@@ -46,7 +52,13 @@ class ChartCubit extends Cubit<ChartCubitState> {
   Future<void> addChartPoint(FlSpot newPoint) async {
     emit(ChartLoading());
 
-    if (newPoint.y < 0 || newPoint.y > 11) {
+    if (newPoint.x < 0 || newPoint.x > 11) {
+      emit(ChartOutOfRangeError('O mês tem que ser de 1 até 12'));
+      return;
+    }
+
+    if (newPoint.y < 0 || newPoint.y > 60) {
+      emit(ChartOutOfRangeError('O peso tem que estar entre 0Kg até 60 Kg'));
       return;
     }
 
@@ -65,9 +77,11 @@ class ChartCubit extends Cubit<ChartCubitState> {
     emit(ChartSuccess(currentList));
   }
 
-  Future<void> removeChartPoint() async {
+  Future<void> removeChartPoint(FlSpot chartPoint) async {
     final currentList = await loadChartPoints();
-    currentList.removeLast();
+
+    currentList.removeWhere(
+        (point) => point.x == chartPoint.x && point.y == chartPoint.y);
 
     await _saveChartPoints(currentList);
     emit(ChartSuccess(currentList));
