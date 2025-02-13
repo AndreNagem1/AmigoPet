@@ -27,7 +27,7 @@ class PetDialogDistancePerDay extends StatelessWidget {
               style: AppStyles.poppins10TextStyle.copyWith(color: AppColors.warmGreen),
             ),
             Text(
-              '24 m',
+              '30 min',
               style: AppStyles.poppins18TextStyle.copyWith(color: AppColors.warmGreen),
             ),
           ],

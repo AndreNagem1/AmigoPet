@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:amigo_pet/pet_details/domain/pet_expandable/pet_expandable_state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

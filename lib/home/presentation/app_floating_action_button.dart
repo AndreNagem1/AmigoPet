@@ -5,8 +5,13 @@ import '../../colors/app_colors.dart';
 
 class AppFloatingActionButton extends StatelessWidget {
   final VoidCallback onPress;
+  final Color color;
 
-  const AppFloatingActionButton({super.key, required this.onPress});
+  const AppFloatingActionButton({
+    super.key,
+    required this.onPress,
+    this.color = AppColors.cyan,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +29,7 @@ class AppFloatingActionButton extends StatelessWidget {
               bottomLeft: Radius.circular(100),
               bottomRight: Radius.circular(100),
             ),
-            color: AppColors.cyan.withOpacity(0.8),
+            color: color.withOpacity(0.8),
           ),
           child: Icon(Icons.pets_outlined),
         ),

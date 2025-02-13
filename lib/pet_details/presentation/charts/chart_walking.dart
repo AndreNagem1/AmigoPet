@@ -22,8 +22,6 @@ class _LineChartSample2State extends State<WalkingChart> {
     AppColors.surface,
   ];
 
-  bool showAvg = false;
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -38,7 +36,7 @@ class _LineChartSample2State extends State<WalkingChart> {
               bottom: 12,
             ),
             child: LineChart(
-              showAvg ? avgData() : mainData(),
+               mainData(),
             ),
           ),
         ),
@@ -82,14 +80,11 @@ class _LineChartSample2State extends State<WalkingChart> {
 
     String text;
     switch (value.toInt()) {
-      case 1:
-        text = '5 km';
-        break;
-      case 3:
-        text = '10 km';
+      case 2:
+        text = '1 h';
         break;
       case 5:
-        text = '15 km';
+        text = '2 h';
         break;
       default:
         return Container();
@@ -150,7 +145,7 @@ class _LineChartSample2State extends State<WalkingChart> {
       minX: 0,
       maxX: 11,
       minY: 0,
-      maxY: 6,
+      maxY: 5,
       lineBarsData: [
         LineChartBarData(
           spots: const [

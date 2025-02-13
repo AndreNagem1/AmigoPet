@@ -2,6 +2,7 @@ import 'package:amigo_pet/pet_details/presentation/pet_info_container/pet_info_c
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 class PetDetailsScreen extends StatelessWidget {
   const PetDetailsScreen({super.key});
 

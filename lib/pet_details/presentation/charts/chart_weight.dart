@@ -39,93 +39,94 @@ class _ChartWeightState extends State<ChartWeight> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChartCubit, ChartCubitState>(
-        bloc: cubit,
-        builder: (context, state) {
-          return switch (state) {
-            ChartSuccess(:final chartPoints) => Stack(
-                children: [
-                  Column(
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 1.70,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            right: 18,
-                            left: 12,
-                            top: 24,
-                            bottom: 12,
-                          ),
-                          child: LineChart(
-                            mainData(chartPoints),
-                          ),
+      bloc: cubit,
+      builder: (context, state) {
+        return switch (state) {
+          ChartSuccess(:final chartPoints) => Stack(
+              children: [
+                Column(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 1.70,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 18,
+                          left: 12,
+                          top: 24,
+                          bottom: 12,
+                        ),
+                        child: LineChart(
+                          mainData(chartPoints),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          _showAddChartPointDialog(
-                            context,
-                            (chartPoint) {
-                              cubit.addChartPoint(chartPoint);
-                            },
-                          );
-                        },
-                        child: Text(
-                          'Adicionar  registro',
-                          style: TextStyle(color: AppColors.warmGreen),
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(
-                            AppColors.warmGreen.withOpacity(0.3),
-                          ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        _showAddChartPointDialog(
+                          context,
+                          (chartPoint) {
+                            cubit.addChartPoint(chartPoint);
+                          },
+                        );
+                      },
+                      child: Text(
+                        'Adicionar  registro',
+                        style: TextStyle(color: AppColors.warmGreen),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(
+                          AppColors.warmGreen.withOpacity(0.3),
                         ),
                       ),
-                      SizedBox(height: 20)
-                    ],
-                  ),
-                ],
-              ),
-            ChartOutOfRangeError(:final errorMessage) => Center(
-                child: Center(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 30),
-                      Text(
-                        errorMessage,
-                        style: AppStyles.poppins12TextStyle,
+                    ),
+                    SizedBox(height: 20)
+                  ],
+                ),
+              ],
+            ),
+          ChartOutOfRangeError(:final errorMessage) => Center(
+              child: Center(
+                child: Column(
+                  children: [
+                    SizedBox(height: 30),
+                    Text(
+                      errorMessage,
+                      style: AppStyles.poppins12TextStyle,
+                    ),
+                    SizedBox(height: 30),
+                    ElevatedButton(
+                      onPressed: () {
+                        cubit.loadChartPoints();
+                      },
+                      child: Text(
+                        'ok',
+                        style: TextStyle(color: AppColors.warmGreen),
                       ),
-                      SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: () {
-                          cubit.loadChartPoints();
-                        },
-                        child: Text(
-                          'ok',
-                          style: TextStyle(color: AppColors.warmGreen),
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(
-                            AppColors.warmGreen.withOpacity(0.3),
-                          ),
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(
+                          AppColors.warmGreen.withOpacity(0.3),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ChartLoading() => Center(
-                child: const CircularProgressIndicator(
-                  color: AppColors.cyan,
-                ),
+            ),
+          ChartLoading() => Center(
+              child: const CircularProgressIndicator(
+                color: AppColors.cyan,
               ),
-            ChartEmpty() => Center(
-                child: Text(
-                  'Você ainda não tem registros',
-                  style: AppStyles.poppins12TextStyle,
-                ),
+            ),
+          ChartEmpty() => Center(
+              child: Text(
+                'Você ainda não tem registros',
+                style: AppStyles.poppins12TextStyle,
               ),
-            ChartCubitState() => throw UnimplementedError(),
-          };
-        });
+            ),
+          ChartCubitState() => throw UnimplementedError(),
+        };
+      },
+    );
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
