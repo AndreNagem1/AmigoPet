@@ -34,14 +34,15 @@ class WalkingChartCubit extends Cubit<WalkingChartState> {
     if (storedData != null) {
       List<dynamic> decodedList = jsonDecode(storedData);
 
-      for (int i = 0; i < decodedList.length; i++) {
-        list.add(FlSpot(i.toDouble(), decodedList[i]['y'].toDouble()));
+      if (decodedList.length > 30) {
+        decodedList = decodedList.sublist(decodedList.length - 30);
+        await prefs.setString(_walkingStorageKey, jsonEncode(decodedList));
       }
 
-      if (list.length > 30) {
-        list = list.sublist(list.length - 30);
-        await prefs.setString(_walkingStorageKey, jsonEncode(list));
-      }
+      list = decodedList
+          .map((e) =>
+              FlSpot((e['x'] as int).toDouble(), (e['y'] as int).toDouble()))
+          .toList();
     }
 
     if (list.isEmpty) {

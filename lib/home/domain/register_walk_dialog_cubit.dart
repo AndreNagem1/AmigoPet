@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,9 +17,6 @@ class RegisterWalkDialogCubit extends Cubit<RegisterWalkDialogState> {
   Future<void> saveChartPoints(int walkInMinutes) async {
     emit(Loading());
 
-    final dateNow = DateTime.now();
-    final registeredDate = "${dateNow.day}${dateNow.month}";
-
     final prefs = await SharedPreferences.getInstance();
     final String? storedData = prefs.getString(_walkingStorageKey);
 
@@ -31,13 +27,9 @@ class RegisterWalkDialogCubit extends Cubit<RegisterWalkDialogState> {
       list = decodedList.map((e) => {'x': e['x'], 'y': e['y']}).toList();
     }
 
-    final existingIndex = list.indexWhere((entry) => entry['x'] == registeredDate);
+    int nextX = list.isNotEmpty ? (list.last['x'] as int) + 1 : 0;
 
-    if (existingIndex != -1) {
-      list[existingIndex]['y'] = (list[existingIndex]['y'] as int) + walkInMinutes;
-    } else {
-      list.add({'x': registeredDate, 'y': walkInMinutes});
-    }
+    list.add({'x': nextX, 'y': walkInMinutes});
 
     if (list.length > 30) {
       list = list.sublist(list.length - 30);
@@ -45,5 +37,6 @@ class RegisterWalkDialogCubit extends Cubit<RegisterWalkDialogState> {
 
     await prefs.setString(_walkingStorageKey, jsonEncode(list));
   }
+
 
 }

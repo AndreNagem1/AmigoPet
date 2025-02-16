@@ -78,7 +78,7 @@ class _LineChartSample2State extends State<WalkingChart> {
     Widget text;
     switch (value.toInt()) {
       case 15:
-        text = Text('Últimos 30 dias', style: style);
+        text = Text('Últimos 30 passeios', style: style);
         break;
       default:
         text = Text('', style: style);
