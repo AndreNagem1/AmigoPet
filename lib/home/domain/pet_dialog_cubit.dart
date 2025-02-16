@@ -14,6 +14,12 @@ class PetDialogStartedWalk extends PetDialogState {}
 
 class PetDialogFinishWalk extends PetDialogState {}
 
+class PetDialogShowRegisterWalk extends PetDialogState {
+  final WalkingInfo info;
+
+  PetDialogShowRegisterWalk(this.info);
+}
+
 class PetDialogCubit extends Cubit<PetDialogState> {
   PetDialogCubit(super.initialState) {
     loadWalkInfo();
@@ -44,6 +50,8 @@ class PetDialogCubit extends Cubit<PetDialogState> {
     try {
       CollectionReference collectionRef = db.collection("passeio");
 
+      final walkingInfo = await loadWalkInfo();
+
       Map<String, dynamic> data = {
         'isWalking': false,
         'date': DateTime.now().toString(),
@@ -51,13 +59,17 @@ class PetDialogCubit extends Cubit<PetDialogState> {
 
       await collectionRef.doc('passeio').set(data);
 
-      emit(PetDialogIdle());
+      if (walkingInfo != null) {
+        emit(PetDialogShowRegisterWalk(walkingInfo));
+      } else {
+        emit(PetDialogError());
+      }
     } catch (e) {
       emit(PetDialogError());
     }
   }
 
-  void loadWalkInfo() async {
+  Future<WalkingInfo?> loadWalkInfo() async {
     emit(PetDialogLoading());
 
     try {
@@ -68,7 +80,7 @@ class PetDialogCubit extends Cubit<PetDialogState> {
       if (event.docs.isEmpty) {
         emit(PetDialogIdle());
         print("No data found");
-        return;
+        return null;
       }
 
       var doc = event.docs.first;
@@ -82,9 +94,15 @@ class PetDialogCubit extends Cubit<PetDialogState> {
       } else {
         emit(PetDialogIdle());
       }
+      return walkingInfo;
     } catch (error) {
       emit(PetDialogError());
       print('Failed to load walking: $error');
     }
+    return null;
+  }
+
+  void resetState() async {
+    emit(PetDialogIdle());
   }
 }

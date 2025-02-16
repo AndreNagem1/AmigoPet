@@ -1,5 +1,9 @@
+import 'package:amigo_pet/common_ui/highlighted_text.dart';
+import 'package:amigo_pet/pet_details/domain/add_item_dialog/add_medication_item_dialog_state.dart';
+import 'package:amigo_pet/pet_details/domain/chart_cubit/walking_chart_cubit.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../colors/app_colors.dart';
 import '../../../common_ui/letter_decoration.dart';
@@ -24,24 +28,48 @@ class _LineChartSample2State extends State<WalkingChart> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        AspectRatio(
-          aspectRatio: 1.70,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 18,
-              left: 12,
-              top: 24,
-              bottom: 12,
-            ),
-            child: LineChart(
-               mainData(),
-            ),
-          ),
-        ),
-      ],
-    );
+    final cubit = WalkingChartCubit(ChartLoading());
+
+    return BlocBuilder<WalkingChartCubit, WalkingChartState>(
+        bloc: cubit,
+        builder: (context, state) {
+          return switch (state) {
+            ChartSuccess() => Stack(
+                children: <Widget>[
+                  AspectRatio(
+                    aspectRatio: 1.70,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        right: 18,
+                        left: 12,
+                        top: 24,
+                        bottom: 12,
+                      ),
+                      child: LineChart(
+                        mainData(state.data),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ChartLoading() => Center(
+                child: const CircularProgressIndicator(
+                  color: AppColors.cyan,
+                ),
+              ),
+            ChartEmpty() => Column(
+                children: [
+                  SizedBox(height: 20),
+                  Text(
+                    'Não tem registros ainda',
+                    style: AppStyles.poppins12TextStyle,
+                  ),
+                  SizedBox(height: 30),
+                ],
+              ),
+            WalkingChartState() => throw UnimplementedError(),
+          };
+        });
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
@@ -49,20 +77,8 @@ class _LineChartSample2State extends State<WalkingChart> {
 
     Widget text;
     switch (value.toInt()) {
-      case 0:
-        text = Text('JAN', style: style);
-        break;
-      case 2:
-        text = Text('MAR', style: style);
-        break;
-      case 5:
-        text = Text('JUN', style: style);
-        break;
-      case 8:
-        text = Text('SEP', style: style);
-        break;
-      case 10:
-        text = Text('DEZ', style: style);
+      case 15:
+        text = Text('Últimos 30 dias', style: style);
         break;
       default:
         text = Text('', style: style);
@@ -76,14 +92,14 @@ class _LineChartSample2State extends State<WalkingChart> {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    final style = AppStyles.poppins12TextStyle;
+    final style = AppStyles.poppins10TextStyle;
 
     String text;
     switch (value.toInt()) {
-      case 2:
+      case 60:
         text = '1 h';
         break;
-      case 5:
+      case 120:
         text = '2 h';
         break;
       default:
@@ -93,7 +109,7 @@ class _LineChartSample2State extends State<WalkingChart> {
     return Text(text, style: style, textAlign: TextAlign.left);
   }
 
-  LineChartData mainData() {
+  LineChartData mainData(List<FlSpot> data) {
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -143,20 +159,12 @@ class _LineChartSample2State extends State<WalkingChart> {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: 11,
+      maxX: 30,
       minY: 0,
-      maxY: 5,
+      maxY: 120,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ],
+          spots: data,
           isCurved: true,
           gradient: LinearGradient(
             colors: lineGradientColors,
@@ -172,103 +180,6 @@ class _LineChartSample2State extends State<WalkingChart> {
               colors: gradientColors
                   .map((color) => color.withOpacity(0.3))
                   .toList(),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  LineChartData avgData() {
-    return LineChartData(
-      lineTouchData: const LineTouchData(enabled: false),
-      gridData: FlGridData(
-        show: true,
-        drawHorizontalLine: true,
-        verticalInterval: 1,
-        horizontalInterval: 1,
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            getTitlesWidget: bottomTitleWidgets,
-            interval: 1,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-            interval: 1,
-          ),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xff37434d)),
-      ),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3.44),
-            FlSpot(2.6, 3.44),
-            FlSpot(4.9, 3.44),
-            FlSpot(6.8, 3.44),
-            FlSpot(8, 3.44),
-            FlSpot(9.5, 3.44),
-            FlSpot(11, 3.44),
-          ],
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: [
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-            ],
-          ),
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: [
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-              ],
             ),
           ),
         ),

@@ -1,11 +1,9 @@
 import 'package:amigo_pet/colors/app_colors.dart';
 import 'package:amigo_pet/common_ui/highlighted_text.dart';
 import 'package:amigo_pet/common_ui/letter_decoration.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common_ui/divider.dart';
-import '../../../home/presentation/ui/add_pet_dialog/add_pet_input.dart';
 
 class DeleteChartPointDialog extends StatelessWidget {
   final Function onDelete;

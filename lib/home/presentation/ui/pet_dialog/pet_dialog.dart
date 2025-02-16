@@ -4,7 +4,9 @@ import 'package:amigo_pet/home/domain/pet_dialog_cubit.dart';
 import 'package:amigo_pet/home/presentation/model/pet_dialog_info.dart';
 import 'package:amigo_pet/home/presentation/ui/pet_dialog/pet_dialog_distance_per_day.dart';
 import 'package:amigo_pet/home/presentation/ui/pet_dialog/pet_dialog_item.dart';
+import 'package:amigo_pet/home/presentation/ui/pet_dialog/register_walk_dialog.dart';
 import 'package:amigo_pet/home/presentation/ui/pet_dialog/status_row.dart';
+import 'package:amigo_pet/pet_details/presentation/model/walking_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -87,37 +89,53 @@ class PetDialog extends StatelessWidget {
                 ),
                 Spacer(),
                 BlocBuilder<PetDialogCubit, PetDialogState>(
-                    bloc: cubit,
-                    builder: (context, state) {
-                      return switch (state) {
-                        PetDialogStartedWalk() => HighlightedTextButton(
-                            color: AppColors.pastelOrange,
-                            onPress: () {
-                              cubit.stopWalk();
-                            },
-                            label: 'Parar',
+                  bloc: cubit,
+                  builder: (context, state) {
+                    if (state is PetDialogShowRegisterWalk) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _showAddMedicationDialog(
+                          context,
+                          state.info,
+                        );
+                      });
+                    }
+
+                    return switch (state) {
+                      PetDialogStartedWalk() => HighlightedTextButton(
+                          color: AppColors.pastelOrange,
+                          onPress: () {
+                            cubit.stopWalk();
+                          },
+                          label: 'Parar',
+                        ),
+                      PetDialogIdle() => HighlightedTextButton(
+                          onPress: () {
+                            cubit.startWalk();
+                          },
+                          label: 'Passear',
+                        ),
+                      PetDialogShowRegisterWalk() => HighlightedTextButton(
+                          onPress: () {
+                            cubit.startWalk();
+                          },
+                          label: 'Passear',
+                        ),
+                      PetDialogLoading() => Center(
+                          child: const CircularProgressIndicator(
+                            color: AppColors.cyan,
                           ),
-                        PetDialogIdle() => HighlightedTextButton(
-                            onPress: () {
-                              cubit.startWalk();
-                            },
-                            label: 'Passear',
-                          ),
-                        PetDialogLoading() => Center(
-                            child: const CircularProgressIndicator(
-                              color: AppColors.cyan,
-                            ),
-                          ),
-                        PetDialogError() => HighlightedTextButton(
-                            color: AppColors.pastelOrange,
-                            onPress: () {
-                              cubit.startWalk();
-                            },
-                            label: 'Erro',
-                          ),
-                        PetDialogState() => throw UnimplementedError(),
-                      };
-                    }),
+                        ),
+                      PetDialogError() => HighlightedTextButton(
+                          color: AppColors.pastelOrange,
+                          onPress: () {
+                            cubit.startWalk();
+                          },
+                          label: 'Erro',
+                        ),
+                      PetDialogState() => throw UnimplementedError(),
+                    };
+                  },
+                ),
                 SizedBox(width: 10)
               ],
             ),
@@ -142,4 +160,17 @@ class PetDialog extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _showAddMedicationDialog(
+  BuildContext context,
+  WalkingInfo info,
+) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return RegisterWalkDialog(info: info);
+    },
+  );
 }
